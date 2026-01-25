@@ -15,9 +15,9 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::post('/admin/products/create', [AdminController::class, 'createProuct']);
 
-    Route::patch('/products/{id}', [IndexController::class, 'index5']);
+    Route::patch('/products/{id}', [AdminController::class, 'updatePost']);
 
-    Route::delete('/products/{id}', [IndexController::class, 'index6']);
+    Route::delete('/products/{id}', [AdminController::class, 'deletePost']);
 });
 
 

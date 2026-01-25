@@ -30,7 +30,7 @@ class IndexController extends Controller
         return response($product, 200);
     }
     public function getCategories(){
-        $categories = Category::get();
-        return $categories;
+        $categories = Category::get()->toResourceCollection();
+        return response($categories, 200);
     }
 }

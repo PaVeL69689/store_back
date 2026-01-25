@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\PersonalAccessToken;
+use Illuminate\Http\Response;
 
 class AdminController extends Controller
 {
@@ -39,9 +40,26 @@ class AdminController extends Controller
         }
         return response(403, 'Forbidden');
     }
-    public function createProuct(Request $request)
+    public function createProuct(Request $request): Response
     {
         $model = new Product();
+        $model->name = $request->title;
+        $model->description = $request->content;
+        $model->price = $request->price;
+        $model->category_id = $request->category;
+        $model->save();
+        return response(200);
+    }
+    public function deletePost(Request $request)
+    {
+        Product::where('id', $request->id)->first()->delete();
+        
+        return response(200);
+    }
+    public function updatePost(Request $request)
+    {
+        
+        $model = Product::where('id', $request->id)->first();
         $model->name = $request->title;
         $model->description = $request->content;
         $model->price = $request->price;
