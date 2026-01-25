@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ProductResource;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -27,5 +28,9 @@ class IndexController extends Controller
         $product = new ProductResource(Product::where('id', $request->id)->with('category')->first());
 
         return response($product, 200);
+    }
+    public function getCategories(){
+        $categories = Category::get();
+        return $categories;
     }
 }

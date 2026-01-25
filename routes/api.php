@@ -11,19 +11,22 @@ Route::get('/user', function (Request $request) {
 });
 
 
-Route::middleware('sanctum')->group(function(){
+Route::middleware('auth:sanctum')->group(function(){
 
-    Route::post('/product', [IndexController::class, 'index4']);
+    Route::post('/admin/products/create', [AdminController::class, 'createProuct']);
 
     Route::patch('/products/{id}', [IndexController::class, 'index5']);
 
     Route::delete('/products/{id}', [IndexController::class, 'index6']);
 });
 
+
 Route::post('/login', [AdminController::class, 'login']);
+
+Route::post('/checkAuth', [AdminController::class, 'checkAuth']);
 
 Route::get('/products', [IndexController::class, 'getProducts']);
 
 Route::get('/products/{id}', [IndexController::class, 'getProduct']);
 
-Route::get('/categories', [IndexController::class, 'index3']);
+Route::get('/categories', [IndexController::class, 'getCategories']);
