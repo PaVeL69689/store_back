@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -9,23 +10,36 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\PersonalAccessToken;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class AdminController extends Controller
 {
     public function login(Request $request)
     {
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->data['email'])->first();
         
-  
-        if($user && Hash::check($request->password, $user->password)){
-            return response($user->createToken("front")->plainTextToken,200);
+
+        if($user && Hash::check($request->data['password'], $user->password)){
+            $token = $user->createToken("front")->plainTextToken;
+            $request->session()->put('token', $token);
+            return redirect('/auth');
         }
+
         else{
-            throw ValidationException::withMessages([
-                "пользователь не найден"
+            return back()->withErrors([
+            'status' => 'Пользователь не найден',
             ]);
         }
+
+    }
+    public function getAdminPage(Request $request)
+    {
+        $products = Product::with('category')->get()->toResourceCollection();
+        return Inertia::render('AdminPage/AdminPage', [
+            'products' => $products,
+        ]);
     }
     public function checkAuth(Request $request)
     {
@@ -54,7 +68,7 @@ class AdminController extends Controller
     {
         Product::where('id', $request->id)->first()->delete();
         
-        return response(200);
+        return redirect('/admin');
     }
     public function updatePost(Request $request)
     {

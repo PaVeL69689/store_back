@@ -11,7 +11,6 @@
 import { onMounted, ref, watch } from "vue";
 
 import IndexLayout from "../../layouts/IndexLayout.vue";
-import api from "@/composables/api";
 import PostsList from "../../components/posts/PostsList.vue";
 
 const VITE_BACK_API = import.meta.env.VITE_BACK_API;

@@ -36,4 +36,15 @@ class IndexController extends Controller
         $categories = Category::get()->toResourceCollection();
         return response($categories, 200);
     }
+    public function auth(Request $request)
+    {   
+
+
+        if($request->session()->has('token')){
+            return Inertia::render('auth/AuthPage', ['status'=> $request->session()->get('token')]);
+        } else {
+            return Inertia::render('auth/AuthPage');
+        }
+        
+    }
 }

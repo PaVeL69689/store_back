@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import { Link } from "@inertiajs/vue3";
 
 const props = defineProps({
